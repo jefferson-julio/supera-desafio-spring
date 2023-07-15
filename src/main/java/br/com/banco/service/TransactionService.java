@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,8 @@ public class TransactionService {
     public Iterable<Transferencia> search(
         String nomeOperadorTransacao,
         Date dataTransferenciaStart,
-        Date dataTransferenciaEnd
+        Date dataTransferenciaEnd,
+        Pageable pageable
     ) {
         List<Specification<Transferencia>> querySpecifications = new ArrayList<>();
 
@@ -49,6 +51,6 @@ public class TransactionService {
             .collect(Collectors.reducing((s1, s2) -> s1.and(s2)))
             .orElse(null);
 
-        return this.transferenciaRepository.findAll(queryParams);
+        return this.transferenciaRepository.findAll(queryParams, pageable);
     }
 }

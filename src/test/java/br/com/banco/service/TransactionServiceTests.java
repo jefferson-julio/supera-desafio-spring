@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
 import br.com.banco.model.Conta;
 import br.com.banco.model.Transferencia;
@@ -71,7 +72,7 @@ public class TransactionServiceTests {
     @Test
     void testSearch_nomeOperadorTransacao() {
         var searchValue = "beltrano1337";
-        var results = this.transactionService.search(searchValue, null, null).iterator();
+        var results = this.transactionService.search(searchValue, null, null, PageRequest.of(0, 10)).iterator();
 
         while (results.hasNext()) {
             var result = results.next();
@@ -82,7 +83,7 @@ public class TransactionServiceTests {
     @Test
     void testSearch_dataTransferenciaStart() {
         var searchValue = new Date(2020, 1, 1);
-        var results = this.transactionService.search(null, searchValue, null);
+        var results = this.transactionService.search(null, searchValue, null, PageRequest.of(0, 10));
 
         int count = 0;
         for (var _i : results) {
@@ -95,7 +96,7 @@ public class TransactionServiceTests {
     @Test
     void testSearch_dataTransferenciaEnd() {
         var searchValue = new Date(2022, 1, 1);
-        var results = this.transactionService.search(null, null, searchValue);
+        var results = this.transactionService.search(null, null, searchValue, PageRequest.of(0, 10));
 
         int count = 0;
         for (var _i : results) {
@@ -109,7 +110,7 @@ public class TransactionServiceTests {
     void testSearch_combinedQuery() {
         var searchStringValue = "beltrano1337";
         var searchDateValue = new Date(2019, 12, 1);
-        var results = this.transactionService.search(searchStringValue, null, searchDateValue);
+        var results = this.transactionService.search(searchStringValue, null, searchDateValue, PageRequest.of(0, 10));
 
         int count = 0;
         for (var i : results) {
