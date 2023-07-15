@@ -120,4 +120,12 @@ public class TransactionServiceTests {
 
         assertEquals(true, count == 1);
     }
+
+    @Test
+    void testCalculateBalance() {
+        var results = this.transactionService.calculateBalance("beltrano1337", null, null);
+
+        assertEquals(300.0, results.getSaldoPeriodo());
+        assertEquals(500.0, results.getSaldoTotal());
+    }
 }

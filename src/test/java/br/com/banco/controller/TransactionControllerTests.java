@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import br.com.banco.service.TransactionService;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -31,5 +31,11 @@ public class TransactionControllerTests {
     public void testSearchInvalidDate() throws Exception {
         mockMvc.perform(get("/transaction/search?dataTransferenciaStart=83-df-yudf"))
             .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCalculateBalanceSuccess() throws Exception {
+        mockMvc.perform(post("/transaction/calculateBalance?nomeOperadorTransacao=test"))
+            .andExpect(status().isOk());
     }
 }
