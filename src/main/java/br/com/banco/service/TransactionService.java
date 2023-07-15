@@ -24,27 +24,27 @@ public class TransactionService {
         Date dataTransferenciaStart,
         Date dataTransferenciaEnd
     ) {
-        List<Specification<Transferencia>> specifications = new ArrayList<>();
+        List<Specification<Transferencia>> querySpecifications = new ArrayList<>();
 
         if (nomeOperadorTransacao != null) {
             Specification<Transferencia> spec = (root, cq, cb) ->
                 cb.equal(root.get(Transferencia_.nomeOperadorTransacao), nomeOperadorTransacao);
-            specifications.add(spec);
+            querySpecifications.add(spec);
         }
 
         if (dataTransferenciaStart != null) {
             Specification<Transferencia> spec = (root, cq, cb) ->
                 cb.greaterThanOrEqualTo(root.get(Transferencia_.dataTransferencia), dataTransferenciaStart);
-            specifications.add(spec);
+            querySpecifications.add(spec);
         }
 
         if (dataTransferenciaEnd != null) {
             Specification<Transferencia> spec = (root, cq, cb) ->
                 cb.lessThanOrEqualTo(root.get(Transferencia_.dataTransferencia), dataTransferenciaEnd);
-            specifications.add(spec);
+            querySpecifications.add(spec);
         }
 
-        var queryParams = specifications
+        var queryParams = querySpecifications
             .stream()
             .collect(Collectors.reducing((s1, s2) -> s1.and(s2)))
             .orElse(null);
