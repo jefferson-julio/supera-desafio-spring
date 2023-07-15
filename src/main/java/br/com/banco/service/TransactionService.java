@@ -78,6 +78,7 @@ public class TransactionService {
         Date dataTransferenciaStart,
         Date dataTransferenciaEnd
     ) {
+        Double totalBalance, periodBalance = 0.0;
         var whereParams = this.generateSearchSpecification(
             nomeOperadorTransacao,
             dataTransferenciaStart,
@@ -89,16 +90,20 @@ public class TransactionService {
         var root = cq.from(Transferencia.class);
         cq.select(cb.sum(root.get(Transferencia_.valor)));
 
-        var totalBalance = entityManager.createQuery(cq).getSingleResult();
+        totalBalance = entityManager.createQuery(cq).getSingleResult();
         if (totalBalance == null) {
             totalBalance = 0.0;
         }
 
-        cq.where(whereParams.toPredicate(root, cq, cb));
+        if (whereParams != null) {
+            cq.where(whereParams.toPredicate(root, cq, cb));
 
-        var periodBalance = entityManager.createQuery(cq).getSingleResult();
-        if (periodBalance == null) {
-            periodBalance = 0.0;
+            periodBalance = entityManager.createQuery(cq).getSingleResult();
+            if (periodBalance == null) {
+                periodBalance = 0.0;
+            }
+        } else {
+            periodBalance = totalBalance;
         }
 
         return new TransferenciaSaldo(totalBalance, periodBalance);
