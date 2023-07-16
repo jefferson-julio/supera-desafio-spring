@@ -35,6 +35,7 @@ Pode subir a aplicação também via compose:
 ```bash
 docker-compose up
 ```
+A aplicação ficará visível na porta 8080.
 
 ## Requisitos do Projeto
 
