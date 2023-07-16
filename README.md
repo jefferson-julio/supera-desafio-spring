@@ -22,6 +22,20 @@
 - Possuir a JDK 11 
 - Uma IDE ou editor de sua preferência
 
+## Docker
+
+Este projeto suporta Docker, caso o tenha instalado pode contruir a imagem da aplicação via o comando:
+
+```bash
+docker build -t supera-spring:latest .
+```
+
+Pode subir a aplicação também via compose:
+
+```bash
+docker-compose up
+```
+
 ## Requisitos do Projeto
 
 - A sua api deve fornecer os dados de transferência de acordo com o número da conta bacária.
